@@ -35,3 +35,4 @@ prisma/*.db
 build/
 chatbot/
 chatbot/
+chatbot-TCC/
