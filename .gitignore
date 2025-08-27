@@ -34,3 +34,4 @@ prisma/*.db
 # Build front/back
 build/
 chatbot/
+chatbot/
