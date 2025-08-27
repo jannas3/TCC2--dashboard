@@ -1,0 +1,45 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum RiskLevel {
+  MINIMO
+  LEVE
+  MODERADO
+  MODERADAMENTE_GRAVE
+  GRAVE
+}
+
+model Student {
+  id         String    @id @default(cuid())
+  telegramId String?   // se quiser vincular usuário do Telegram
+  nome       String
+  idade      Int
+  matricula  String    @unique
+  curso      String
+  periodo    String
+  createdAt  DateTime  @default(now())
+
+  screenings Screening[]
+}
+
+model Screening {
+  id              String    @id @default(cuid())
+  studentId       String
+  student         Student   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  phq9Respostas   Int[]     // [0..3] x 9
+  phq9Score       Int
+  gad7Respostas   Int[]     // [0..3] x 7
+  gad7Score       Int
+  disponibilidade String
+  observacao      String?
+  relatorio       String
+  riskPHQ9        RiskLevel
+  riskGAD7        RiskLevel
+  createdAt       DateTime  @default(now())
+}
